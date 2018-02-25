@@ -39,16 +39,16 @@ pdd prodTime(int n){
     for(int i = 0 ; i<n ; i++)
         for(int j = 0 ; j<n ; j++)
             for(int k = 0 ; k<n ; k++){
-                auto start = chrono::steady_clock::now();
+                auto start = chrono::system_clock::now();
                 int pd = (A[i][k] * B[k][j]);
-                auto end = chrono::steady_clock::now();
-                product += (chrono::duration_cast<chrono::nanoseconds>(end - start).count());
-                start = chrono::steady_clock::now();
+                auto end = chrono::system_clock::now();
+                product += (chrono::duration<double>(end - start)).count();
+                start = chrono::system_clock::now();
                 ans[i][j] = ans[i][j] + pd;
-                end = chrono::steady_clock::now();
-                add += (chrono::duration_cast<chrono::nanoseconds>(end - start).count());
+                end = chrono::system_clock::now();
+                add += (chrono::duration<double>(end - start)).count();
             }
-    return pdd(add/(double)1e9,product/(double)1e9);
+    return pdd(add,product);
 }
 
 int main(){
@@ -60,12 +60,12 @@ int main(){
     init(n);
     cout<<"A:\n";showM(A,n);
     cout<<"B:\n";showM(B,n);
-    auto start = chrono::steady_clock::now();
+    auto start = chrono::system_clock::now();
     product(n);
-    auto end = chrono::steady_clock::now();   
+    auto end = chrono::system_clock::now();   
     
     cout<<"ans: \n";showM(ans,n);
-    cout<<"time elapsed > "<<(chrono::duration_cast<chrono::nanoseconds>(end - start).count())/(double)1e9<<" seconds.\n";
+    cout<<"time elapsed > "<<(chrono::duration<double>(end - start)).count()<<" seconds.\n";
     
     cout<<"---- C++ time performance analysis - each 10 steps----\n";
     cout<<" n \t avg(10) \t add_avg(10) \t prod_avg(10) \n";
@@ -73,10 +73,10 @@ int main(){
         init(i);//reset values of matrices
         double avg = 0, add_avg=0,prod_avg = 0;
         for(int j = 0;j<10;j++){
-            start = chrono::steady_clock::now();
+            start = chrono::system_clock::now();
             pdd ot = prodTime(i);
-            end = chrono::steady_clock::now();
-            avg += (chrono::duration_cast<chrono::nanoseconds>(end - start).count())/(double)1e9;
+            end = chrono::system_clock::now();
+            avg += (chrono::duration<double>(end - start)).count();
             add_avg += ot.first;
             prod_avg += ot.second;
         }

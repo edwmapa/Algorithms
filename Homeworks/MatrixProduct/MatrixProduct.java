@@ -53,7 +53,7 @@ public class MatrixProduct {
                 end = System.nanoTime();
                 add += (double)(end-start);
             }
-        return new pdd(add/(double)1e9,product/(double)1e9);
+        return new pdd(add/1000000000.0,product/1000000000.0);
     }
     
     public static void main(String[] args) {   
@@ -67,9 +67,9 @@ public class MatrixProduct {
         product(n);
         long end = System.nanoTime();
         System.out.println("ans: ");showM(ans,n);
-        System.out.println("time elapsed " + (end-start/((double)1e9) + " seconds."));
+        System.out.println("time elapsed " + ((end-start)/1000000000.0) + " seconds.");
         
-        System.out.println("----time performance analysis - each 10 steps----");
+        System.out.println("----JAVA time performance analysis - each 10 steps----");
         System.out.println(" n \t avg(10) \t add_avg(10) \t prod_avg(10) ");       
         for (int i = 0 ; i <= 200;i+=10){
             init(i);//reset values of matrices
@@ -79,14 +79,14 @@ public class MatrixProduct {
                 start = System.nanoTime();
                 ot = prodTime(i);
                 end = System.nanoTime();
-                avg += (end-start)/(double)1e9;
-                   add_avg += ot.first;
+                avg += (end-start)/1000000000.0;
+                add_avg += ot.first;
                 prod_avg += ot.second;
             }
             avg/=10.0;
             add_avg/=10.0;
             prod_avg/=10.0;
-            System.out.printf("%d \t %.8f \t %.8f \t %.8f\n",i,avg,add_avg,prod_avg);
+            System.out.println(i+"\t"+avg+"\t"+add_avg+"\t"+prod_avg);
         }       
     }
 
